@@ -1,8 +1,24 @@
 pub const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz";
 
 pub fn caesar(input: &str, shift: i32) -> String {
-    let _ = (input, shift);
-    todo!("implement caesar")
+    let mod_shift = shift.rem_euclid(26);
+    let mut result = String::new();
+
+    for ch in input.chars() {
+        if ch.is_ascii_lowercase() {
+            let pos = ch as u8 - b'a';
+            let new_pos = (pos + mod_shift as u8) % 26;
+            result.push((new_pos + b'a') as char);
+        } else if ch.is_ascii_uppercase() {
+            let pos = ch as u8 - b'A';
+            let new_pos = (pos + mod_shift as u8) % 26;
+            result.push((new_pos + b'A') as char);
+        } else {
+            result.push(ch);
+        }
+    }
+
+    result
 }
 
 #[cfg(test)]
